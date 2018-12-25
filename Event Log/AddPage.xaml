@@ -1,0 +1,120 @@
+﻿<Page
+    x:Class="Event_Log.AddPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Event_Log"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <ScrollViewer MaxWidth="452" Margin="10" HorizontalAlignment="Center">
+        <StackPanel Margin="0,0,30,20">
+            <StackPanel.DataContext>
+                <local:Event x:Name="NewEvent"/>
+            </StackPanel.DataContext>
+            <Grid Margin="0,15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.RowSpan="2" VerticalAlignment="Center">
+                    <Image x:Name="icon" Source="ms-appx:///Assets/item.png"  Width="65" Height="65" Stretch="UniformToFill" HorizontalAlignment="Center"/>
+                    <HyperlinkButton x:Name="icon_change" x:Uid="chIcon" HorizontalAlignment="Center" Click="Icon_change_Clicked"/>
+                </StackPanel>
+                <TextBox Grid.Column="1" Margin="25,0,0,0" VerticalAlignment="Top" MaxLength="70"
+                     x:Uid="name" Text="{Binding Name, Mode=TwoWay}"/>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Margin="25,15,0,0">
+                    <CalendarDatePicker x:Name="clndPicker" Width="125" x:Uid="clndHeader" Loaded="ClndPicker_Loaded"
+                                        VerticalAlignment="Center"/>
+                    <ToggleSwitch x:Name="tglNotify" VerticalAlignment="Center" Margin="25,0,0,0">
+                        <ToggleSwitch.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock x:Uid="alarm" Margin="0,5,0,4"/>
+                            </DataTemplate>
+                        </ToggleSwitch.HeaderTemplate>
+                    </ToggleSwitch>
+                </StackPanel>
+                <TimePicker x:Name="timePicker" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Right"
+                        Visibility="{Binding ElementName=tglNotify, Path=IsOn}" Margin="0,7,0,0"/>
+            </Grid>
+            <StackPanel Orientation="Horizontal" Margin="0,15">
+                <StackPanel.Resources>
+                    <local:NegationConverter x:Key="neg"/>
+                </StackPanel.Resources>
+                <CheckBox x:Name="dltCheck" x:Uid="dltCheck" IsChecked="{Binding Keep, Mode=TwoWay, Converter={StaticResource neg}}"/>
+                <TextBlock x:Name="caution" x:Uid="caution" Margin="77,0,0,0" Foreground="Red" VerticalAlignment="Center"
+                           Visibility="{Binding ElementName=dltCheck, Path=IsChecked}"/>
+            </StackPanel>
+            <TextBlock x:Uid="note" Margin="0,15"/>
+            <TextBox MaxLength="10000" MaxWidth="367" x:Uid="plcHolder"
+                 MaxHeight="192" AcceptsReturn="True" TextWrapping="Wrap"
+                 Text="{Binding Message, Mode=TwoWay}"/>
+            <StackPanel Orientation="Horizontal" Margin="0,30,0,0">
+                <TextBlock x:Uid="stroke" VerticalAlignment="Center"/>
+                <Button Margin="10,0,0,0" Background="Transparent" Click="RefreshCanvas_Clicked">
+                    <Button.Content>
+                        <SymbolIcon Symbol="Refresh"/>
+                    </Button.Content>
+                </Button>
+            </StackPanel>
+            <Border BorderThickness="1" BorderBrush="{ThemeResource TextBoxBorderThemeBrush}" HorizontalAlignment="Center" Margin="0,10,0,0">
+                <InkCanvas x:Name="ink" Height="110" Loaded="Innk_Loaded" Width="330"/>
+            </Border>
+            <Grid Margin="0,30,0,15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Uid="media" VerticalAlignment="Center" Margin="0,0,7,0"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding ElementName=rbtnAudio, Path=IsChecked}" Margin="10,0,0,0">
+                    <HyperlinkButton x:Uid="rcAudio" Click="AudioRecord_Clicked"/>
+                    <TextBlock Text="/" Margin="10,0" Foreground="Gray" VerticalAlignment="Center"/>
+                    <HyperlinkButton x:Name="sndPlay" x:Uid="plAudio" Visibility="Collapsed" Click="Play_sound_Clicked"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding ElementName=rbtnVideo, Path=IsChecked}" Margin="10,0,0,0">
+                    <HyperlinkButton x:Uid="rcVideo" Click="VideoRecord_Clicked"/>
+                    <TextBlock Text="/" Margin="10,0" Foreground="Gray" VerticalAlignment="Center"/>
+                    <HyperlinkButton x:Name="vidPlay" x:Uid="plVideo" Visibility="Collapsed" Click="Play_video_Clicked"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left" Margin="12,15,0,0">
+                    <RadioButton x:Uid="rdBtn1" GroupName="MediaMessage" IsChecked="True" HorizontalAlignment="Right"/>
+                    <RadioButton x:Name="rbtnAudio" x:Uid="rdBtn2" GroupName="MediaMessage" HorizontalAlignment="Right"/>
+                    <RadioButton x:Name="rbtnVideo" x:Uid="rdBtn3" GroupName="MediaMessage" HorizontalAlignment="Right"/>
+                </StackPanel>
+            </Grid>
+            <Grid Margin="0,30,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button HorizontalAlignment="Stretch" Click="Cancel_Clicked" Background="Transparent" BorderThickness="2,0,1,2" PointerEntered="Button_PointerEntered"
+                        BorderBrush="Gray" PointerExited="Button_PointerExited" Tag="cncl">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon Symbol="Cancel" VerticalAlignment="Center"/>
+                            <TextBlock x:Uid="btCancel" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+                <Button Grid.Column="1" HorizontalAlignment="Stretch" Click="Schedule_Clicked" Background="Transparent" BorderThickness="1,0,2,2" 
+                        BorderBrush="Gray" PointerEntered="Button_PointerEntered" PointerExited="Button_PointerExited" Tag="acpt">
+                    <Button.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <SymbolIcon Symbol="Save" VerticalAlignment="Center"/>
+                            <TextBlock x:Uid="btSave" Margin="10,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button.Content>
+                </Button>
+            </Grid>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

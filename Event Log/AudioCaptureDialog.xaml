@@ -1,0 +1,42 @@
+﻿<ContentDialog
+    x:Class="Event_Log.AudioCaptureDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Event_Log"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    PrimaryButtonText="Record"
+    SecondaryButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <HyperlinkButton x:Uid="dlgSettings" NavigateUri="ms-settings:privacy-microphone" HorizontalAlignment="Right"/>
+        <StackPanel Grid.Row="1" >
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock x:Name="display" Text="0"/>
+                <TextBlock x:Uid="dlgSec" Margin="5,0,0,0"/>
+            </StackPanel>
+            <Slider x:Name="slide" IsEnabled="False" StepFrequency="1" Minimum="0" ValueChanged="Slide_ValueChanged"
+                    PointerEntered="Slide_PointerEntered" PointerExited="Slide_PointerExited"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="2" Grid.ColumnSpan="3" Margin="0,15,0,0">
+            <Button Tag="pl" x:Name="ppButton" Margin="0,0,20,0" Background="Transparent" IsEnabled="False" ClickMode="Release" Click="Play_Pause_Clicked">
+                <Button.Content>
+                    <SymbolIcon x:Name="smbl"  Symbol="Play"/>
+                </Button.Content>
+            </Button>
+            <Button x:Name="acceptButton" Background="Transparent" IsEnabled="False" Click="Accept_Button_Clicked">
+                <Button.Content>
+                    <SymbolIcon Symbol="Accept"/>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+    </Grid>
+</ContentDialog>

@@ -1,0 +1,44 @@
+﻿<Page
+    x:Class="Event_Log.Settings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Event_Log"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid MaxWidth="400" MaxHeight="300">
+        <Grid Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border BorderThickness="0,0,5,5" BorderBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <Button x:Uid="stSaveLog" Click="GetLogFile" HorizontalAlignment="Stretch" Margin="20,0"/>
+            </Border>
+            <Rectangle Grid.Column="1" Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
+            <Button Grid.Row="1" x:Uid="stSetLog" HorizontalAlignment="Stretch" Margin="20,0" Click="SetLogFile"/>
+            <Border Grid.Row="1" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                    BorderBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="10,3" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <StackPanel HorizontalAlignment="Center">
+                    <RadioButton x:Name="add" x:Uid="stAdd" GroupName="LoadType" IsChecked="True"/>
+                    <RadioButton x:Uid="stReplace" GroupName="LoadType"/>
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="2" BorderThickness="0,5,0,0" BorderBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <ComboBox x:Name="cmbBox" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="20,0"
+                          HorizontalContentAlignment="Center" SelectionChanged="ComboBox_SelectionChanged" Loaded="CmbBox_Loaded"/>
+            </Border>
+            <Rectangle Grid.Row="2" Grid.Column="1" Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
+        </Grid>
+        <Grid x:Name="progress" Background="Transparent" Opacity="0.5" Visibility="Collapsed">
+            <ProgressRing  IsActive="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="50"/>
+        </Grid>
+    </Grid>
+</Page>
